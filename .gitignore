@@ -219,3 +219,7 @@ dist
 .tern-port
 
 .idea/modules/
+
+# for cloud functions
+.gcloudignore
+functions/
