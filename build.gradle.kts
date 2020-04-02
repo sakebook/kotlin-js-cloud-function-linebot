@@ -1,5 +1,6 @@
 plugins {
     kotlin("js") version "1.3.71"
+    kotlin("plugin.serialization") version "1.3.71"
 }
 
 group = "com.github.sakebook"
@@ -14,6 +15,7 @@ dependencies {
     implementation(npm("firebase-admin", "^8.10.0"))
     implementation(npm("firebase-functions", "^3.5.0"))
     implementation(npm("@firebase/app", "^0.6.0"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.14.0") // workaround: 0.20.0 is not found oon npm
 }
 
 kotlin {

@@ -1,3 +1,6 @@
+import kotlinx.serialization.json.Json
+import models.WebhookEvent
+
 external val exports: dynamic
 external fun require(module: String): dynamic
 
@@ -8,9 +11,12 @@ external object functions {
 }
 
 fun main() {
-    println("Hello Kotlin/JS!")
+    println("Hello Kotlin/JS!!!")
     exports.message = functions.https.onRequest { req, res ->
         console.log("message")
-        res.status(200).send("Hello World!!")
+        val json = JSON.stringify(req.body)
+        console.log("json ${json}")
+        val events = Json.parse(WebhookEvent.serializer(), json)
+        res.status(200).send("Hello World!!!")
     }
 }
