@@ -13,5 +13,7 @@ data class Event(
     @SerialName("timestamp")
     val timestamp: Long,
     @SerialName("type")
-    val type: String
+    val type: String,
+    @SerialName("mode")
+    val mode: String
 )

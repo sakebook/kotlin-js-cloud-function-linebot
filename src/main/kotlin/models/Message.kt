@@ -7,11 +7,8 @@ data class Message(
     @SerialName("id")
     val id: String,
     @SerialName("type")
-    val type: String,
-    @SerialName("packageId")
-    val packageId: String? = null,
-    @SerialName("stickerId")
-    val stickerId: String? = null,
+    @Serializable(with=TypeSerializer::class)
+    val type: Type,
     @SerialName("text")
     val text: String? = null
 )
