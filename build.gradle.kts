@@ -16,6 +16,7 @@ dependencies {
     implementation(npm("firebase-functions", "^3.5.0"))
     implementation(npm("@firebase/app", "^0.6.0"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.14.0") // workaround: 0.20.0 is not found oon npm
+    implementation(npm("axios", "^0.19.2"))
 }
 
 kotlin {
