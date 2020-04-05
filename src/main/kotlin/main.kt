@@ -30,13 +30,13 @@ fun main() {
 
 private fun createText(message: Message): String {
     val text = when (val type = message.type) {
-        Type.text -> message.text
-        Type.image,
-        Type.video,
-        Type.audio,
-        Type.file,
-        Type.location,
-        Type.sticker -> "${type.kind()}は対応していません"
+        Type.TEXT -> message.text
+        Type.IMAGE,
+        Type.VIDEO,
+        Type.AUDIO,
+        Type.FILE,
+        Type.LOCATION,
+        Type.STICKER -> "${type.kind()}は対応していません"
     }
     return "[オウム返し]\n$text"
 }

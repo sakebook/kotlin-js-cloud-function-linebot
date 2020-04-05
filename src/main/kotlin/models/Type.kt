@@ -5,24 +5,24 @@ import kotlinx.serialization.internal.StringDescriptor
 
 @Serializable
 enum class Type {
-    text,
-    image,
-    video,
-    audio,
-    file,
-    location,
-    sticker,
+    TEXT,
+    IMAGE,
+    VIDEO,
+    AUDIO,
+    FILE,
+    LOCATION,
+    STICKER,
     ;
 
     fun kind(): String {
         return when (this) {
-            text -> "テキスト"
-            image -> "画像"
-            video -> "動画"
-            audio -> "音声"
-            file -> "ファイル"
-            location -> "位置情報"
-            sticker -> "スタンプ"
+            TEXT -> "テキスト"
+            IMAGE -> "画像"
+            VIDEO -> "動画"
+            AUDIO -> "音声"
+            FILE -> "ファイル"
+            LOCATION -> "位置情報"
+            STICKER -> "スタンプ"
         }
     }
 }
@@ -33,10 +33,10 @@ object TypeSerializer : KSerializer<Type> {
 
     override fun deserialize(decoder: Decoder): Type {
         val type = decoder.decodeString()
-        return Type.valueOf(type)
+        return Type.valueOf(type.toUpperCase())
     }
 
     override fun serialize(encoder: Encoder, obj: Type) {
-        encoder.encodeString(obj.name)
+        encoder.encodeString(obj.name.toLowerCase())
     }
 }
