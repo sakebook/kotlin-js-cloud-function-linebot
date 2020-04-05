@@ -1,22 +1,42 @@
-import kotlinx.serialization.json.Json
-import models.WebhookEvent
+import kotlinx.serialization.json.*
+import models.*
+import wrapper.Functions
 
 external val exports: dynamic
-external fun require(module: String): dynamic
-
-@JsModule("firebase-functions")
-@JsNonModule
-external object functions {
-    val https: dynamic
-}
 
 fun main() {
-    println("Hello Kotlin/JS!!!")
-    exports.message = functions.https.onRequest { req, res ->
-        console.log("message")
+    exports.message = Functions.https.onRequest { req, res ->
         val json = JSON.stringify(req.body)
-        console.log("json ${json}")
-        val events = Json.parse(WebhookEvent.serializer(), json)
-        res.status(200).send("Hello World!!!")
+        console.log("json $json")
+        val webhookEvent = Json.nonstrict.parse(WebhookEvent.serializer(), json)
+        val token = webhookEvent.events.first().replyToken
+        Axios.post<Any, JsonObject>(url = "https://api.line.me/v2/bot/message/reply", data = Reply(token, listOf(
+            ReplyMessage(text = createText(webhookEvent.events.first().message))
+        )), config = Axios.defaults.apply {
+            this.method = "POST"
+            this.responseType = "JSON"
+            this.headers = js {
+                this.Authorization =
+                    "Bearer ${js("process.env.CHANNEL_ACCESS_TOKEN")}"
+            } as? Any
+        }).then {
+            console.log("then ${JSON.stringify(it)}")
+        }.catch {
+            console.log("catch ${JSON.stringify(it)}")
+        }
+        res.status(200).send("Success!!")
     }
+}
+
+private fun createText(message: Message): String {
+    val text = when (val type = message.type) {
+        Type.text -> message.text
+        Type.image,
+        Type.video,
+        Type.audio,
+        Type.file,
+        Type.location,
+        Type.sticker -> "${type.kind()}は対応していません"
+    }
+    return "[オウム返し]\n$text"
 }
