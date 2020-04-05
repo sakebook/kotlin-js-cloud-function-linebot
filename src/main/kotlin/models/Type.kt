@@ -15,7 +15,7 @@ enum class Type {
     ;
 
     fun kind(): String {
-        return when(this) {
+        return when (this) {
             text -> "テキスト"
             image -> "画像"
             video -> "動画"
@@ -28,7 +28,7 @@ enum class Type {
 }
 
 @Serializer(forClass = Type::class)
-object TypeSerializer: KSerializer<Type> {
+object TypeSerializer : KSerializer<Type> {
     override val descriptor: SerialDescriptor = StringDescriptor
 
     override fun deserialize(decoder: Decoder): Type {

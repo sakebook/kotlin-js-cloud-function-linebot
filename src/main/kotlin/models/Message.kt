@@ -7,7 +7,7 @@ data class Message(
     @SerialName("id")
     val id: String,
     @SerialName("type")
-    @Serializable(with=TypeSerializer::class)
+    @Serializable(with = TypeSerializer::class)
     val type: Type,
     @SerialName("text")
     val text: String? = null
