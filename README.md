@@ -21,6 +21,8 @@ $ ./gradlew clean compileKotlinJs
 
 ## Debug
 
+Running local server.
+
 ```sh
 $ cd build/js/packages/kotlin-js-cloud-function-linebot/ && npx @google-cloud/functions-framework --target=message ; cd -
 ```
