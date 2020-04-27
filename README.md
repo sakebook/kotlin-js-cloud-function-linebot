@@ -9,7 +9,7 @@ LINE Bot written in Kotlin/JS and running with Cloud Functions for Firebase.
 Parrot return. Text only.
 
 ## Environment
-- Kotlin v1.3.71
+- Kotlin v1.3.72
 - Gradle v6.3
 - dukat v0.0.28
 
@@ -33,7 +33,7 @@ You'll need a Channel Access Token to try it.
 
 ```sh
 $ ./gradlew clean compileKotlinJs
-$ ./gradlew cloudFunctions
+$ ./gradlew packaging
 $ cd functions && gcloud functions deploy message --region asia-northeast1 --trigger-http --runtime nodejs8 --update-env-vars CHANNEL_ACCESS_TOKEN="YOUR TOKEN" && cd -
 ```
 
