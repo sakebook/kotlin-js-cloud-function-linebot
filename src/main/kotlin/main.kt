@@ -7,23 +7,25 @@ import kotlin.js.Promise
 external val exports: dynamic
 
 fun main() {
-    exports.message = { req: Request, res: Response ->
-        val webhookEvent = parseRequest(req)
-        val reply = createReply(webhookEvent)
-        postReply(reply)
-            .then {
-                console.log("then ${JSON.stringify(it) { key: String, value: Any? ->
-                    when (key) {
-                        "request" -> ""
-                        else -> value
-                    }
-                }}")
-                res.status(200).send("Success!!")
-            }.catch {
-                console.log("catch ${JSON.stringify(it)}")
-                res.status(400).send("Error!!")
-            }
-    }
+    exports.message = ::message
+}
+
+fun message(req: Request, res: Response) {
+    val webhookEvent = parseRequest(req)
+    val reply = createReply(webhookEvent)
+    postReply(reply)
+        .then {
+            console.log("then ${JSON.stringify(it) { key: String, value: Any? ->
+                when (key) {
+                    "request" -> ""
+                    else -> value
+                }
+            }}")
+            res.status(200).send("Success!!")
+        }.catch {
+            console.log("catch ${JSON.stringify(it)}")
+            res.status(400).send("Error!!")
+        }
 }
 
 private fun parseRequest(req: Request): WebhookEvent {
