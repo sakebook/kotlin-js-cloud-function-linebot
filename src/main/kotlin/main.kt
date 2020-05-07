@@ -31,7 +31,7 @@ fun message(req: Request, res: Response) {
 private fun parseRequest(req: Request): WebhookEvent {
     val json = JSON.stringify(req.body)
     console.log("json $json")
-    return Json.nonstrict.parse(WebhookEvent.serializer(), json)
+    return Json.parse(WebhookEvent.serializer(), json)
 }
 
 private fun createReply(webhookEvent: WebhookEvent): Reply {
@@ -42,14 +42,15 @@ private fun createReply(webhookEvent: WebhookEvent): Reply {
 }
 
 private fun postReply(reply: Reply): Promise<JsonObject> {
-    return Axios.post<Unit, JsonObject>(url = "https://api.line.me/v2/bot/message/reply", data = reply, config = Axios.defaults.apply {
-        this.method = "POST"
-        this.responseType = "JSON"
-        this.headers = js {
+    val axios = Axios.create(object : AxiosRequestConfig {
+        override var method: String = "POST"
+        override var responseType: String = "json"
+        override var headers: Any? = kotlinext.js.js {
             this.Authorization =
                 "Bearer ${js("process.env.CHANNEL_ACCESS_TOKEN")}"
         } as? Any
     })
+    return axios.post<Unit, JsonObject>(url = "https://api.line.me/v2/bot/message/reply", data = reply)
 }
 
 private fun createText(message: Message): String {

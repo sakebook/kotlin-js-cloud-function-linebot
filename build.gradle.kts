@@ -13,6 +13,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-js"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.20.0") // Not official
+    implementation(npm("@jetbrains/kotlin-extensions", "^1.0.1-pre.91"))
     implementation(npm("axios", "^0.19.2"))
 }
 
@@ -35,6 +36,15 @@ tasks {
             val texts = jsonFile.readLines()
                 .map { it.replace("kotlin/${project.name}.js", "index.js") }
             jsonFile.writeText(texts.joinToString("\n"))
+        }
+    }
+    compileKotlinJs {
+        doLast {
+            // workaround for use kotlin-extensions
+            val jsFile = File("build/js/packages/${project.name}/kotlin/${project.name}.js")
+            val text = jsFile.readText()
+            val rep = text.replace(" require('kotlin-extensions')", " require('@jetbrains/kotlin-extensions')")
+            jsFile.writeText(rep)
         }
     }
 }
