@@ -1,7 +1,6 @@
 package models
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringDescriptor
 
 @Serializable
 enum class Type {
@@ -29,7 +28,7 @@ enum class Type {
 
 @Serializer(forClass = Type::class)
 object TypeSerializer : KSerializer<Type> {
-    override val descriptor: SerialDescriptor = StringDescriptor
+    override val descriptor: SerialDescriptor = PrimitiveDescriptor("type", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): Type {
         val type = decoder.decodeString()

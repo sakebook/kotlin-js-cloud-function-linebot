@@ -28,16 +28,16 @@ fun message(req: Request, res: Response) {
         }
 }
 
-private fun parseRequest(req: Request): WebhookEvent {
+private fun parseRequest(req: Request): WebHookEvent {
     val json = JSON.stringify(req.body)
     console.log("json $json")
-    return Json.parse(WebhookEvent.serializer(), json)
+    return Json.parse(WebHookEvent.serializer(), json)
 }
 
-private fun createReply(webhookEvent: WebhookEvent): Reply {
-    val token = webhookEvent.events.first().replyToken
+private fun createReply(webHookEvent: WebHookEvent): Reply {
+    val token = webHookEvent.events.first().replyToken
     return Reply(token, listOf(
-        ReplyMessage(text = createText(webhookEvent.events.first().message))
+        ReplyMessage(text = createText(webHookEvent.events.first().message))
     ))
 }
 
